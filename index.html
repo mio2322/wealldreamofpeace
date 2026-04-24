@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We All Dream of Peace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --white: #FFFFFF;
+            --off-white: #FAFAFA;
+            --light-gray: #F2F2F2;
+            --border: #E5E5E5;
+            --charcoal: #1A1A1A;
+            --text: #2C2C2C;
+            --text-light: #888888;
+            --gold: #C4A265;
+            --gold-light: #D4B87A;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            transition: box-shadow 0.4s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--charcoal); }
+
+        .nav-cart {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        /* ===== HERO â HELL ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 3rem;
+            background: var(--white);
+            position: relative;
+        }
+
+        .peace-symbol {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+            opacity: 0.2;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            line-height: 1.3;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Hero Video-Hintergrund (Fullscreen wie ASKET) */
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .hero-video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Wenn kein Video: dezenter Hintergrund */
+        .hero-video-bg.no-video {
+            background: linear-gradient(180deg, var(--off-white) 0%, var(--white) 100%);
+        }
+
+        .hero-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.55);
+            z-index: 1;
+        }
+
+        .hero > *:not(.hero-video-bg):not(.hero-video-overlay) {
+            position: relative;
+            z-index: 2;
+        }
+
+        .scroll-indicator {
+            margin-top: 3rem;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: var(--border);
+            margin: 0 auto;
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* ===== PRODUKT-BEREICH ===== */
+        .product {
+            padding: 0;
+            background: var(--white);
+            min-height: 100vh;
+        }
+
+        .product-layout {
+            display: grid;
+            grid-template-columns: 46fr 54fr;
+            min-height: 100vh;
+        }
+
+        /* Grosses Produktbild â Edge-to-Edge */
+        .product-image-area {
+            position: relative;
+            background: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .product-main-img {
+            width: 100%;
+            height: calc(100% - 3.5rem);
+            position: absolute;
+            top: 3.5rem;
+            left: 0;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        .product-main-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            transform-origin: center center;
+            transition: transform 0.1s ease;
+        }
+
+        .product-main-img .placeholder-text {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* Flaggen-Leiste unter dem Bild */
+        .flag-bar {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.2rem;
+            position: relative;
+            z-index: 5;
+            padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 6px;
+        }
+
+        .flag-btn {
+            width: 36px;
+            height: 24px;
+            border: 2px solid transparent;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flag-btn:hover { transform: scale(1.1); }
+        .flag-btn.active { border-color: var(--charcoal); }
+
+        .flag-btn .fs { flex: 1; }
+
+        /* Flag colors */
+        .fb-de .fs:nth-child(1) { background: #000; }
+        .fb-de .fs:nth-child(2) { background: #DD0000; }
+        .fb-de .fs:nth-child(3) { background: #FFCC00; }
+
+        .fb-tr { background: #E30A17; }
+        .fb-tr .fs:nth-child(1) { background: #E30A17; }
+        .fb-tr .fs:nth-child(2) { background: #E30A17; position: relative; }
+        .fb-tr .fs:nth-child(2)::after {
+            content: 'âª';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 10px;
+            line-height: 1;
+        }
+        .fb-tr .fs:nth-child(3) { background: #E30A17; }
+
+        .fb-it .fs:nth-child(1) { background: #009246; }
+        .fb-it .fs:nth-child(2) { background: #fff; }
+        .fb-it .fs:nth-child(3) { background: #CE2B37; }
+
+        .fb-pl .fs:nth-child(1) { background: #fff; }
+        .fb-pl .fs:nth-child(2) { background: #DC143C; }
+
+        .fb-hr .fs:nth-child(1) { background: #FF0000; }
+        .fb-hr .fs:nth-child(2) { background: #fff; }
+        .fb-hr .fs:nth-child(3) { background: #171796; }
+
+        .fb-gr .fs:nth-child(1) { background: #0D5EAF; }
+        .fb-gr .fs:nth-child(2) { background: #fff; }
+
+        .fb-arab .fs:nth-child(1) { background: #007A3D; }
+        .fb-arab .fs:nth-child(2) { background: #fff; }
+        .fb-arab .fs:nth-child(3) { background: #000; }
+
+        .fb-peace .fs:nth-child(1) { background: #7A8B6F; }
+        .fb-peace .fs:nth-child(2) { background: #C4A265; }
+        .fb-peace .fs:nth-child(3) { background: #7A8B6F; }
+
+
+        .fb-ua .fs:nth-child(1) { background: #005BBB; }
+        .fb-ua .fs:nth-child(2) { background: #FFD500; }
+
+        .fb-ru .fs:nth-child(1) { background: #fff; }
+        .fb-ru .fs:nth-child(2) { background: #0039A6; }
+        .fb-ru .fs:nth-child(3) { background: #D52B1E; }
+
+        .fb-rs .fs:nth-child(1) { background: #C6363C; }
+        .fb-rs .fs:nth-child(2) { background: #0C4076; }
+        .fb-rs .fs:nth-child(3) { background: #fff; }
+
+        .fb-ro .fs:nth-child(1) { background: #002B7F; }
+        .fb-ro .fs:nth-child(2) { background: #FCD116; }
+        .fb-ro .fs:nth-child(3) { background: #CE1126; }
+
+        .flag-label {
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            min-height: 1.2em;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Rechte Seite: Konfigurator */
+        .product-config {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5rem 3.5rem 2rem;
+            min-height: 100vh;
+        }
+
+        .product-config-top {
+            /* Titel, Preis, Beschreibung oben */
+        }
+
+        .product-config-bottom {
+            /* Konfiguration unten */
+        }
+
+        .product-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            margin-bottom: 0.3rem;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-desc {
+            font-size: 0.82rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .config-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .config-group label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+        }
+
+        /* Gender toggle */
+        .gender-options {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .gender-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .gender-btn:hover, .gender-btn.active {
+            border-color: var(--charcoal);
+            color: var(--charcoal);
+        }
+
+        /* Shirt color toggle */
+        .color-options {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .color-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .color-btn:hover, .color-btn.active { border-color: var(--charcoal); }
+        .color-btn.white { background: #fff; }
+        .color-btn.black { background: #1A1A1A; }
+
+        /* Size */
+        .size-options {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .size-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .size-btn:hover, .size-btn.active {
+            border-color: var(--charcoal);
+            background: var(--charcoal);
+            color: white;
+        }
+
+        /* Quality */
+        .quality-options {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .quality-btn {
+            flex: 1;
+            padding: 0.7rem 0.8rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .quality-btn:hover, .quality-btn.active {
+            border-color: var(--charcoal);
+            background: var(--charcoal);
+            color: white;
+        }
+
+        .quality-btn small {
+            display: block;
+            margin-top: 0.2rem;
+            font-size: 0.62rem;
+            opacity: 0.6;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 1rem;
+            background: var(--charcoal);
+            color: white;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .add-to-cart:hover { background: var(--gold); }
+
+        /* ===== STORY ===== */
+        .story {
+            padding: 6rem 2rem;
+            background: var(--off-white);
+            border-top: 1px solid var(--border);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-inner {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .story h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 300;
+            line-height: 1.4;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+        }
+
+        .story p {
+            font-size: 0.88rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .story blockquote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--charcoal);
+            margin: 2rem 0;
+            padding: 0 1rem;
+            line-height: 1.5;
+        }
+
+        .story-vision {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 3rem 2rem;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--charcoal); }
+
+        footer small {
+            font-size: 0.65rem;
+            color: var(--text-light);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .product-layout {
+                grid-template-columns: 1fr;
+            }
+            .product-image-area {
+                min-height: 60vh;
+            }
+            .product-config {
+                min-height: auto;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav id="mainNav">
+        <a href="#" class="nav-logo">We All Dream of Peace</a>
+        <ul class="nav-links">
+            <li><a href="#product">Kollektion</a></li>
+            <li><a href="#story">Unsere Story</a></li>
+        </ul>
+        <a href="#" class="nav-cart">Warenkorb (0)</a>
+    </nav>
+
+    <!-- HERO â FULLSCREEN VIDEO (ohne Video erstmal dezenter Hintergrund) -->
+    <section class="hero">
+        <!-- Video kommt hier rein: <video src="bilder/hero-video.mp4" autoplay muted loop playsinline></video> -->
+        <div class="hero-video-bg no-video"></div>
+        <div class="hero-video-overlay"></div>
+
+        <div class="peace-symbol">&#9774;</div>
+        <h1>We All Dream<br>of Peace</h1>
+        <p class="hero-subtitle">Uniform au&szlig;en &middot; Identit&auml;t innen</p>
+
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- PRODUKT -->
+    <section class="product" id="product">
+        <div class="product-layout">
+
+            <!-- Links: Grosses Bild + Flaggen -->
+            <div class="product-image-area">
+                <div class="product-main-img" id="productImg">
+                    <img src="bilder/model_tuerkei_mann.png" alt="Hidden Identity Shirt â TÃ¼rkei Edition" id="productImage">
+                </div>
+
+                <!-- Flaggen unter dem Bild -->
+                <div class="flag-bar" id="flagBar">
+                    <button class="flag-btn fb-de active" data-country="Deutschland" title="Deutschland">
+                        <div class="fs"></div><div class="fs"></div><div class="fs"></div>
+                    </button>
+                    <button class="flag-btn fb-tr" data-country="T&uuml;rkei" title="TÃ¼rkei">
+                        <div class="fs"></div><div class="fs"></div><div class="fs"></div>
+                    </button>
+                    <button class="flag-btn fb-pl" data-country="Polen" title="Polen">
+                        <div class="fs"></div><div class="fs"></div>
+                    </button>
+                    <button class="flag-btn fb-it" data-country="Italien" title="Italien">
+                        <div class="fs"></div><div class="fs"></div><div class="fs"></div>
+                    </button>
+                    <button class="flag-btn fb-hr" data-country="Kroatien" title="Kroatien">
+                        <div class="fs"></div><div class="fs"></div><div class="fs"></div>
+                    </button>
+                    <button class="flag-btn fb-ua" data-country="Ukraine" title="Ukraine">
+                        <div class="fs"></div><div class="fs"></div>
+                    </button>
+                    <button class="flag-btn fb-ru" data-country="Russland" title="Russland">
+                        <div class="fs"></div><div class="fs"></div><div class="fs"></div>
+                    </button>
+                </div>
+                <p class="flag-label" id="flagLabel">Deutschland</p>
+            </div>
+
+            <!-- Rechts: Konfigurator -->
+            <div class="product-config">
+                <div class="product-config-top">
+                    <h2 class="product-title">Hidden Identity Shirt</h2>
+                    <p class="product-price" id="priceDisplay">ab 49 &euro;</p>
+                    <p class="product-desc">
+                        Modern Fit &middot; Premium-Baumwolle &middot; Haifischkragen<br>
+                        Kontrastfutter in Knopfleiste, Manschetten &amp; Kragen
+                    </p>
+                </div>
+
+                <div class="product-config-bottom">
+                <div class="config-group">
+                    <label>Geschlecht</label>
+                    <div class="gender-options">
+                        <button class="gender-btn active">Herren</button>
+                        <button class="gender-btn">Damen</button>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <label>Hemdfarbe</label>
+                    <div class="color-options">
+                        <button class="color-btn white active" title="Wei&szlig;"></button>
+                        <button class="color-btn black" title="Schwarz"></button>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <label>Gr&ouml;&szlig;e</label>
+                    <div class="size-options">
+                        <button class="size-btn">S</button>
+                        <button class="size-btn active">M</button>
+                        <button class="size-btn">L</button>
+                        <button class="size-btn">XL</button>
+                        <button class="size-btn">XXL</button>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <label>Qualit&auml;t</label>
+                    <div class="quality-options">
+                        <button class="quality-btn active" data-price="49">Standard<small>49 &euro;</small></button>
+                        <button class="quality-btn" data-price="69">Premium<small>69 &euro;</small></button>
+                    </div>
+                </div>
+
+                <button class="add-to-cart">In den Warenkorb</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="story" id="story">
+        <div class="story-inner fade-in">
+            <p class="section-label">Unsere Inspiration</p>
+            <h2>Liberty Cuffs</h2>
+            <p>
+                Im 19. Jahrhundert durften Matrosen der Royal Navy keine sichtbaren Muster
+                oder Tattoos tragen. Also f&uuml;tterten sie die Innenseiten ihrer Manschetten
+                mit bunten Stoffen.
+            </p>
+            <blockquote>
+                &bdquo;An Land krempelten sie die &Auml;rmel hoch und zeigten ihre Pers&ouml;nlichkeit.&ldquo;
+            </blockquote>
+            <p>
+                Genau dieses Prinzip: Uniform au&szlig;en, Identit&auml;t innen.
+                Ein schlichtes Hemd nach au&szlig;en &mdash; deine Geschichte verborgen im Inneren.
+            </p>
+
+            <div class="story-vision">
+                <p class="section-label">Die Vision</p>
+                <h2>Mehr als Nationalfarben</h2>
+                <p>
+                    Nationalfarben sind der Anfang &mdash; aber nicht das Ende. Das eigentliche Produkt
+                    ist das Konzept: Ein schlichtes Hemd mit einer versteckten Botschaft.
+                    Friedenszeichen, K&uuml;nstler-Kollaborationen, St&auml;dte-Muster &mdash;
+                    die Botschaft &auml;ndert sich, das Konzept bleibt.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="footer-logo">We All Dream of Peace</p>
+        <div class="footer-links">
+            <a href="#">Impressum</a>
+            <a href="#">Datenschutz</a>
+            <a href="#">Versand &amp; Retouren</a>
+            <a href="#">Kontakt</a>
+            <a href="#">Instagram</a>
+            <a href="#">TikTok</a>
+        </div>
+        <small>&copy; 2026 We All Dream of Peace. Alle Rechte vorbehalten.</small>
+    </footer>
+
+    <script>
+        // Nav shadow on scroll
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Fade-in
+        const fadeEls = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        fadeEls.forEach(el => observer.observe(el));
+
+        // Flag buttons
+        const flagBtns = document.querySelectorAll('.flag-btn');
+        const flagLabel = document.getElementById('flagLabel');
+        flagBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                flagBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                flagLabel.innerHTML = btn.dataset.country;
+                // Alt-Text anpassen
+                const img = document.getElementById('productImage');
+                if (img) img.alt = 'Hidden Identity Shirt â ' + btn.dataset.country + ' Edition';
+            });
+        });
+
+        // Gender toggle
+        document.querySelectorAll('.gender-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Color toggle
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Size
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Quality + Price
+        const priceDisplay = document.getElementById('priceDisplay');
+        document.querySelectorAll('.quality-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                priceDisplay.textContent = 'ab ' + btn.dataset.price + ' \u20AC';
+            });
+        });
+
+        // Zoom on scroll over product image
+        const productImgContainer = document.getElementById('productImg');
+        const productImage = document.getElementById('productImage');
+        let zoomLevel = 1;
+        const minZoom = 1;
+        const maxZoom = 3;
+
+        if (productImgContainer && productImage) {
+            productImgContainer.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.15 : 0.15;
+                zoomLevel = Math.min(maxZoom, Math.max(minZoom, zoomLevel + delta));
+                
+                if (zoomLevel > 1) {
+                    // Pan to mouse position
+                    const rect = productImgContainer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    productImage.style.transformOrigin = x + '% ' + y + '%';
+                    productImgContainer.style.cursor = 'zoom-out';
+                } else {
+                    productImage.style.transformOrigin = 'center center';
+                    productImgContainer.style.cursor = 'zoom-in';
+                }
+                
+                productImage.style.transform = 'scale(' + zoomLevel + ')';
+            }, { passive: false });
+
+            // Double-click to reset
+            productImgContainer.addEventListener('dblclick', function() {
+                zoomLevel = 1;
+                productImage.style.transform = 'scale(1)';
+                productImage.style.transformOrigin = 'center center';
+                productImgContainer.style.cursor = 'zoom-in';
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                const t = document.querySelector(this.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+
+        // Fullpage scroll-snapping (JS)
+        const sections = document.querySelectorAll('.hero, .product, .story, footer');
+        let isSnapping = false;
+        let lastScrollTime = 0;
+        const cooldown = 1400; // ms between snaps
+
+        window.addEventListener('wheel', function(e) {
+            // Don't snap if zooming on product image
+            if (e.target.closest('.product-main-img')) return;
+
+            const now = Date.now();
+            if (isSnapping || now - lastScrollTime < cooldown) {
+                e.preventDefault();
+                return;
+            }
+
+            const direction = e.deltaY > 0 ? 1 : -1;
+            const viewportMiddle = window.innerHeight / 2;
+            
+            // Find which section we're currently in
+            let currentIdx = 0;
+            sections.forEach((sec, i) => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= viewportMiddle && rect.bottom > viewportMiddle) {
+                    currentIdx = i;
+                }
+            });
+
+            const targetIdx = Math.min(sections.length - 1, Math.max(0, currentIdx + direction));
+            
+            if (targetIdx !== currentIdx) {
+                e.preventDefault();
+                isSnapping = true;
+                lastScrollTime = now;
+                
+                sections[targetIdx].scrollIntoView({ behavior: 'smooth' });
+                
+                setTimeout(() => {
+                    isSnapping = false;
+                }, cooldown);
+            }
+        }, { passive: false });
+
+        // Keyboard support (arrow keys, page up/down)
+        window.addEventListener('keydown', function(e) {
+            if (!['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space'].includes(e.key)) return;
+            
+            const now = Date.now();
+            if (isSnapping || now - lastScrollTime < cooldown) {
+                e.preventDefault();
+                return;
+            }
+
+            const direction = ['ArrowDown', 'PageDown', 'Space'].includes(e.key) ? 1 : -1;
+            const viewportMiddle = window.innerHeight / 2;
+            
+            let currentIdx = 0;
+            sections.forEach((sec, i) => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= viewportMiddle && rect.bottom > viewportMiddle) {
+                    currentIdx = i;
+                }
+            });
+
+            const targetIdx = Math.min(sections.length - 1, Math.max(0, currentIdx + direction));
+            
+            if (targetIdx !== currentIdx) {
+                e.preventDefault();
+                isSnapping = true;
+                lastScrollTime = now;
+                sections[targetIdx].scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => { isSnapping = false; }, cooldown);
+            }
+        });
+    </script>
+
+</body>
+</html>
